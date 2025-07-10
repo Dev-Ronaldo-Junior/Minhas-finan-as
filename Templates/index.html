@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ronaldcont | Sua Parceira Estratégica em Finanças</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>Ronaldcont</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/sobre">Sobre</a></li>
+                    <li><a href="/contato">Contato</a></li>
+                    <li><a href="/login">Entrar</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="hero">
+            <div class="hero-content">
+                <h2>Controle Suas Finanças com Inteligência.</h2>
+                <p>Na Ronaldcont, você tem as ferramentas para **simplificar sua gestão financeira** e alcançar seus objetivos. **Comece agora** a ter total visibilidade sobre suas finanças!</p>
+                <a href="#financial-control-section" class="btn-primary">Acessar Controle Financeiro</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main-section">
+        <section id="financial-control-section" class="financial-control-dashboard">
+            <div class="dashboard-header">
+                <h2>💰 Controle Financeiro</h2>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="dashboard-card add-transaction-card">
+                    <h3>Adicionar Nova Transação</h3>
+                    <form action="/adicionar" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="nome" placeholder="Descrição da Transação" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="tipo" required>
+                                <option value="">Selecione o Tipo</option>
+                                <option value="ganho">Ganho</option>
+                                <option value="despesa">Despesa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" step="0.01" name="valor" placeholder="Valor (R$)" required>
+                        </div>
+                        <button type="submit" class="btn-add-transaction">Adicionar Transação</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-card summary-card">
+                    <h3>Resumo Financeiro</h3>
+                    <p>Ganhos: <span class="ganhos-valor">R$ {{ '%.2f' | format(ganhos) }}</span></p>
+                    <p>Despesas: <span class="despesas-valor">R$ {{ '%.2f' | format(despesas) }}</span></p>
+                    <p class="saldo"><strong>Saldo Atual: <span class="saldo-valor">R$ {{ '%.2f' | format(saldo) }}</span></strong></p>
+                </div>
+
+                <div class="dashboard-card transactions-list-card">
+                    <h3>Suas Transações Recentes</h3>
+                    <ul class="transaction-list">
+                        {% for t in transacoes %}
+                            <li class="transaction-item {{ 'ganho' if t[2] == 'ganho' else 'despesa' }}">
+                                <span class="transaction-type">[{{ t[2].capitalize() }}]</span>
+                                <span class="transaction-name">{{ t[1] }}</span>
+                                <span class="transaction-value">R$ {{ '%.2f' | format(t[3]) }}</span>
+                                <a href="/deletar/{{ t[0] }}" class="delete-btn">🗑</a>
+                            </li>
+                        {% else %}
+                            <li class="no-transactions">Nenhuma transação ainda.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="dashboard-card chart-card">
+                    <h3>Visualização Gráfica</h3>
+                    <canvas id="financialChart"></canvas>
+                    <p>Gráfico de Ganhos vs. Despesas.</p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 JRR Contabilidade. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

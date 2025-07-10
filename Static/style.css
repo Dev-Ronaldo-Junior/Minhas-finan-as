@@ -1,0 +1,542 @@
+/* --- 0. RESET BÁSICO e VARIÁVEIS DE COR --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* overflow-x: hidden; */ /* Cuidado com isso, pode esconder conteúdo útil se não for bem gerenciado */
+    scroll-behavior: smooth; /* Para o smooth scroll da navegação */
+}
+
+/* Garante que todas as caixas considerem padding e borda na largura total */
+* {
+    box-sizing: border-box;
+}
+
+/* Variáveis de cor para o tema escuro */
+:root {
+    --bg-dark: #1A1A2E; /* Fundo principal escuro */
+    --bg-card: #202030; /* Fundo dos cards/elementos */
+    --text-light: #E0E0E0; /* Texto principal claro */
+    --text-secondary: #AAAAAA; /* Texto secundário/sutil */
+    --accent-blue: #007bff; /* Azul vibrante para detalhes/botões */
+    --accent-green: #28a745; /* Verde para ganhos */
+    --accent-red: #dc3545; /* Vermelho para despesas */
+    --border-color: #303045; /* Cor de borda sutil */
+    --highlight-yellow: #ffc107; /* Amarelo para destaque (se necessário, como logo) */
+}
+
+body {
+    font-family: 'Montserrat', sans-serif; /* Usando a fonte que você importou */
+    background-color: var(--bg-dark); /* Fundo principal escuro */
+    color: var(--text-light); /* Cor do texto padrão */
+    line-height: 1.6;
+}
+
+/* Estilo para contêineres centrais */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 1. HEADER E NAVEGAÇÃO --- */
+header {
+    background-color: var(--bg-card); /* Fundo do header, pode ser igual ao card para uniformidade */
+    padding-bottom: 0; /* O hero vai logo abaixo */
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+.header-container {
+    background-color: var(--bg-card); /* Mantendo o card aqui para o tema escuro */
+    padding: 15px 40px; /* Mais padding nas laterais para o design moderno */
+    display: flex;
+    justify-content: space-between; /* Mantém logo e navegação nas pontas */
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--highlight-yellow); /* Destaque amarelo para a logo */
+    letter-spacing: 1px;
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 35px; /* Aumentei o espaçamento entre os itens da navegação */
+}
+
+.main-nav ul li a {
+    color: var(--text-light); /* Links em texto claro */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 17px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 8px 15px; /* Um pouco mais de padding */
+    border-radius: 6px; /* Bordas mais arredondadas */
+    background-color: transparent; /* Remova o background amarelo aqui, se for para ser transparente */
+    border: 1px solid transparent; /* Adiciona uma borda transparente para o hover */
+}
+
+.main-nav ul li a:hover {
+    color: var(--accent-blue); /* Cor de hover azul vibrante */
+    background-color: rgba(0, 123, 255, 0.1); /* Fundo sutil no hover */
+    border-color: var(--accent-blue); /* Borda no hover */
+}
+
+/* --- 2. HERO SECTION --- */
+.hero {
+    background: linear-gradient(to bottom, rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9)), url('https://images.unsplash.com/photo-1517486804609-b47201b17135?fit=crop&w=1920&q=80&h=800&auto=format') no-repeat center center/cover;
+    height: 450px; /* Altura um pouco menor para dar foco ao dashboard */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px 20px;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h2 {
+    font-size: 44px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* --- 3. BOTÕES GERAIS --- */
+.btn-primary, .btn-add-transaction, .delete-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px; /* Mais arredondado */
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #0069d9; /* Tom mais escuro de azul */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* --- 4. SEÇÃO DO DASHBOARD DE CONTROLE FINANCEIRO --- */
+.dashboard-main-section {
+    padding: 60px 0; /* Padding em cima e embaixo */
+    background-color: var(--bg-dark); /* Garante que o fundo da seção seja o escuro */
+}
+
+.financial-control-dashboard {
+    max-width: 1300px; /* Um pouco mais largo para o dashboard */
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column; /* Começamos com coluna para organizar o cabeçalho */
+    gap: 30px; /* Espaçamento entre os elementos principais */
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-header h2 {
+    font-size: 38px;
+    color: var(--text-light);
+    font-weight: 700;
+    position: relative;
+}
+.dashboard-header h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent-blue);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.dashboard-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Layout responsivo com grid */
+    gap: 30px; /* Espaçamento entre os cards */
+    align-items: start; /* Alinha os cards ao topo */
+}
+
+.dashboard-card {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px; /* Mais arredondado */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border-color); /* Borda sutil */
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px); /* Efeito de elevação no hover */
+}
+
+.dashboard-card h3 {
+    font-size: 24px;
+    color: var(--accent-blue); /* Títulos dos cards em azul */
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Estilo para formulários dentro dos cards */
+.dashboard-card form .form-group {
+    margin-bottom: 20px;
+}
+
+.dashboard-card input[type="text"],
+.dashboard-card input[type="number"],
+.dashboard-card select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #303045; /* Fundo do input mais escuro */
+    color: var(--text-light);
+    font-size: 16px;
+    outline: none; /* Remove outline ao focar */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card input:focus,
+.dashboard-card select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.dashboard-card select {
+    /* Estilo para setas de select em tema escuro */
+    -webkit-appearance: none; /* Remove estilo padrão do Safari/Chrome */
+    -moz-appearance: none;    /* Remove estilo padrão do Firefox */
+    appearance: none;         /* Remove estilo padrão */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23AAAAAA%22%20d%3D%22M287%2C184.8L146.2%2C38.9C143.7%2C36.4%2C140.6%2C35%2C137.4%2C35s-6.3%2C1.4-8.9%2C3.9L5.4%2C184.8c-3.1%2C3.1-3.7%2C7.9-1.5%2C11.9c2.1%2C4%2C6.3%2C6.5%2C10.8%2C6.5h272.9c4.5%2C0%2C8.6-2.5%2C10.8-6.5C290.7%2C192.7%2C290.1%2C187.9%2C287%2C184.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 12px auto;
+}
+.dashboard-card option {
+    background-color: var(--bg-card); /* Fundo das opções do select */
+    color: var(--text-light);
+}
+
+.btn-add-transaction {
+    width: 100%;
+    background-color: var(--accent-blue);
+    color: #fff;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.btn-add-transaction:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Estilos para o Resumo Financeiro */
+.summary-card p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.05); /* Linha divisória sutil */
+}
+
+.summary-card p:last-of-type {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-light);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.ganhos-valor {
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+.despesas-valor {
+    color: var(--accent-red);
+    font-weight: 600;
+}
+
+.saldo {
+    color: var(--accent-blue); /* Cor do saldo total */
+}
+
+/* Estilos para a Lista de Transações */
+.transactions-list-card {
+    grid-column: span 2; /* Faz com que o card de transações ocupe duas colunas */
+    /* ou ajuste para a largura total em mobile */
+}
+
+.transaction-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px; /* Altura máxima para a lista rolável */
+    overflow-y: auto; /* Adiciona barra de rolagem se a lista for muito longa */
+    scrollbar-width: thin; /* Estilo para scrollbar no Firefox */
+    scrollbar-color: var(--accent-blue) var(--bg-card); /* Estilo para scrollbar no Firefox */
+}
+
+/* Estilo para scrollbar em WebKit (Chrome, Safari) */
+.transaction-list::-webkit-scrollbar {
+    width: 8px;
+}
+.transaction-list::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 10px;
+}
+.transaction-list::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue);
+    border-radius: 10px;
+    border: 2px solid var(--bg-dark);
+}
+
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 16px;
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-type {
+    font-weight: 700;
+    min-width: 80px; /* Garante que o tipo tenha um espaço mínimo */
+    text-align: left;
+}
+
+.transaction-item.ganho .transaction-value {
+    color: var(--accent-green);
+}
+
+.transaction-item.despesa .transaction-value {
+    color: var(--accent-red);
+}
+
+.transaction-name {
+    flex-grow: 1; /* Ocupa o espaço restante */
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.transaction-value {
+    font-weight: 600;
+    min-width: 100px; /* Garante que o valor tenha um espaço mínimo */
+    text-align: right;
+}
+
+.delete-btn {
+    background-color: transparent;
+    color: var(--text-secondary); /* Ícone de lixeira em cinza */
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+    opacity: 0.7;
+}
+
+.delete-btn:hover {
+    color: var(--accent-red);
+    background-color: rgba(220, 53, 69, 0.1);
+    opacity: 1;
+}
+
+.no-transactions {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+/* --- 4. SEÇÃO DO DASHBOARD DE CONTROLE FINANCEIRO --- */
+
+/* ... (Seu código existente para .dashboard-card, etc.) ... */
+
+.dashboard-card {
+    background-color: var(--bg-card);
+    padding: 30px; /* Mantém o padding original do card */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border-color);
+
+    display: flex;
+    flex-direction: column;
+    /* Remover justify-content: space-between; se estiver aqui */
+}
+
+.chart-card {
+    padding: 25px; /* Mantenha o padding interno do card do gráfico */
+    
+    /* --- NOVOS AJUSTES CRUCIAIS AQUI --- */
+    /* Remova qualquer altura fixa 'height: ...px;' que você possa ter colocado antes */
+    /* height: 400px;  <-- REMOVA ESTA LINHA SE ESTIVER AQUI */
+
+    /* Definir uma altura MÍNIMA e MÁXIMA para o card */
+    /* Isso dá ao gráfico espaço suficiente para valores altos, mas com limites */
+    min-height: 400px; /* Uma altura mínima que permita ver os valores sem espremer */
+    max-height: 600px; /* Um limite para não ficar GIGANTESCO. Ajuste este valor! */
+    
+    /* Garante que o contêiner flexível ainda se ajuste bem */
+    flex-basis: auto; /* Permite que o item cresça e encolha automaticamente */
+    flex-grow: 1; /* Permite que o card do gráfico cresça no grid */
+}
+
+/* Ajuste o margin-bottom do título para dar mais espaço ao gráfico */
+.chart-card h3 {
+    margin-bottom: 20px; 
+}
+
+.chart-card canvas {
+    /* Estas propriedades são CUCIAIS para o Chart.js se comportar */
+    /* Deixe o Chart.js controlar a altura proporcionalmente */
+    width: 100% !important; 
+    height: auto !important; /* <--- MANTENHA 'auto' para que o Chart.js determine */
+    
+    /* Assegure-se que não há min-height/min-width que impeçam o resize */
+    min-height: 0; 
+    min-width: 0; 
+
+    display: block; /* Garante que o canvas se comporte como um bloco */
+    margin: auto; /* Centraliza o gráfico dentro do espaço flexível */
+    padding: 0; /* Zera qualquer padding interno padrão */
+    
+    /* Adicione estas propriedades para ajudar o redimensionamento */
+    contain: layout size; /* Otimiza a contenção de layout e tamanho */
+    /* outline: 1px solid red; */ /* Linha de debug: Descomente para ver a caixa do canvas */
+}
+
+/* Ajuste o margin-top do parágrafo abaixo do gráfico */
+.chart-card p {
+    margin-top: 20px; 
+}
+
+/* --- REVISE ISSO: SE O GRID ESTIVER CAUSANDO PROBLEMAS DE ALTURA --- */
+/* Se a seção .dashboard-content estiver limitando a altura do card indevidamente */
+/* .dashboard-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    align-items: start;
+    /* Talvez você precise de uma altura mínima aqui, mas geralmente não */
+    /* min-height: 600px; */ /* Apenas se nada mais funcionar e os cards estiverem muito pequenos */
+/* } */
+
+/* --- 5. FOOTER --- */
+footer {
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 30px 0;
+    font-size: 15px;
+    margin-top: 50px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- 6. RESPONSIVIDADE --- */
+@media (max-width: 992px) {
+    .header-container {
+        padding: 15px 20px;
+        flex-direction: column; /* Empilha logo e navegação */
+        align-items: flex-start;
+    }
+    .main-nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    .main-nav ul li a {
+        margin-right: 0; /* Remove margin extra em mobile */
+        width: 100%; /* Faz o link ocupar toda a largura */
+    }
+    .hero {
+        height: 350px;
+    }
+    .hero-content h2 {
+        font-size: 34px;
+    }
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .dashboard-content {
+        grid-template-columns: 1fr; /* Coluna única em telas menores */
+    }
+    .transactions-list-card {
+        grid-column: auto; /* Reseta o span para mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .logo h1 {
+        font-size: 24px;
+    }
+    .hero-content h2 {
+        font-size: 28px;
+    }
+    .hero-content p {
+        font-size: 15px;
+    }
+    .dashboard-card {
+        padding: 20px;
+    }
+    .dashboard-card h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    .summary-card p, .transaction-item {
+        font-size: 15px;
+    }
+    .summary-card p:last-of-type {
+        font-size: 20px;
+    }
+}
