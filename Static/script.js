@@ -3,14 +3,13 @@ console.log("JavaScript carregado!");
 
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
-    if (form) { // Verifica se o formulário existe na página
+    if (form) { 
         form.addEventListener("submit", function () {
-            // alert("Transação enviada!"); // Você pode remover este alerta se não quiser
+             alert("Transação enviada!");
         });
     }
 
     // --- Lógica para o Gráfico Chart.js de Ganhos vs Despesas ---
-    // Renomeado a variável ctx para ctxFinancial para evitar conflitos com outros gráficos
     const ctxFinancial = document.getElementById('financialChart');
 
     // Verifica se o elemento canvas existe antes de tentar criar o gráfico
@@ -23,30 +22,28 @@ document.addEventListener("DOMContentLoaded", function () {
         let despesas = 0;
 
         if (ganhosElement) {
-            // --- RESTAURADO: Lógica de conversão ORIGINAL que você usava ---
             ganhos = parseFloat(ganhosElement.textContent.replace('R$', '').replace(',', '.').trim());
-            if (isNaN(ganhos)) { // Proteção caso a conversão falhe
+            if (isNaN(ganhos)) { 
                 ganhos = 0;
             }
         }
         if (despesasElement) {
-            // --- RESTAURADO: Lógica de conversão ORIGINAL que você usava ---
             despesas = parseFloat(despesasElement.textContent.replace('R$', '').replace(',', '.').trim());
-            if (isNaN(despesas)) { // Proteção caso a conversão falhe
+            if (isNaN(despesas)) { 
                 despesas = 0;
             }
         }
 
-        new Chart(ctxFinancial, { // Usar ctxFinancial aqui
-            type: 'bar', // Tipo de gráfico: barras
+        new Chart(ctxFinancial, { 
+            type: 'bar', 
             data: {
-                labels: ['Ganhos', 'Despesas'], // Rótulos das barras
+                labels: ['Ganhos', 'Despesas'], 
                 datasets: [{
                     label: 'Valores Financeiros (R$)',
-                    data: [ganhos, despesas], // Dados para as barras
+                    data: [ganhos, despesas], 
                     backgroundColor: [
-                        'rgba(40, 167, 69, 0.8)', // Verde para Ganhos
-                        'rgba(220, 53, 69, 0.8)'  // Vermelho para Despesas
+                        'rgba(40, 167, 69, 0.8)', 
+                        'rgba(220, 53, 69, 0.8)'  
                     ],
                     borderColor: [
                         'rgba(40, 167, 69, 1)',
@@ -57,52 +54,47 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Permite que o gráfico se ajuste ao tamanho do contêiner
+                maintainAspectRatio: false, 
                 scales: {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            color: '#E0E0E0', // Cor dos rótulos do eixo Y
-                            // --- TAMANHO DA FONTE DO EIXO Y (mantido 18) ---
+                            color: '#E0E0E0', 
                             font: {
                                 size: 18
                             }
-                            // O callback para formatação inteligente (K/M) não estava na sua versão final que você gostou,
-                            // então não o incluí aqui para o gráfico de barras.
                         },
                         grid: {
-                            color: 'rgba(255, 255, 255, 0.1)' // Cor das linhas de grade do eixo Y
+                            color: 'rgba(255, 255, 255, 0.1)' 
                         }
                     },
                     x: {
                         ticks: {
-                            color: '#E0E0E0', // Cor dos rótulos do eixo X
-                            // --- TAMANHO DA FONTE DO EIXO X (mantido 18) ---
+                            color: '#E0E0E0', 
                             font: {
                                 size: 18
                             }
                         },
                         grid: {
-                            color: 'rgba(255, 255, 255, 0.1)' // Cor das linhas de grade do eixo X
+                            color: 'rgba(255, 255, 255, 0.1)' 
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         labels: {
-                            color: '#E0E0E0', // Cor do texto da legenda
-                            // font: { size: 14 } // Opcional: para o tamanho da legenda
+                            color: '#E0E0E0', 
                         }
                     },
                     title: {
                         display: true,
                         text: 'Comparativo de Ganhos e Despesas',
-                        color: '#E0E0E0', // Cor do título do gráfico
+                        color: '#E0E0E0', 
                         font: {
                             size: 18
                         }
                     },
-                    tooltip: { // Melhorar a exibição do tooltip
+                    tooltip: { 
                         callbacks: {
                             label: function(context) {
                                 let label = context.dataset.label || '';
@@ -121,12 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- NOVO: GRÁFICO DE LINHA - HISTÓRICO DE SALDO ---
-    // A variável global 'saldoHistoricoData' é populada no index.html pelo Jinja2
     const ctxHistorico = document.getElementById('saldoHistoricoChart');
     if (ctxHistorico && typeof saldoHistoricoData !== 'undefined' && saldoHistoricoData.length > 0) {
-        // Prepara os rótulos (datas) e dados (saldo)
-        // Certifique-se que o saldoHistoricoData vem com o formato de data correto (YYYY-MM-DD)
         const labelsHistorico = saldoHistoricoData.map(item => item.data);
         const dataHistorico = saldoHistoricoData.map(item => item.saldo);
 
@@ -137,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 datasets: [{
                     label: 'Saldo Acumulado (R$)',
                     data: dataHistorico,
-                    borderColor: 'rgba(0, 123, 255, 0.8)', // Azul vibrante
-                    backgroundColor: 'rgba(0, 123, 255, 0.2)', // Fundo suave
-                    fill: true, // Preenche a área abaixo da linha
-                    tension: 0.3, // Curvatura da linha
+                    borderColor: 'rgba(0, 123, 255, 0.8)', 
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)', 
+                    fill: true, 
+                    tension: 0.3, 
                     pointBackgroundColor: 'rgba(0, 123, 255, 1)',
                     pointBorderColor: '#fff',
                     pointHoverBackgroundColor: '#fff',
@@ -155,8 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         beginAtZero: true,
                         ticks: {
                             color: '#E0E0E0',
-                            font: { size: 14 }, // Ajuste o tamanho da fonte
-                            callback: function(value) { // Formatação de moeda
+                            font: { size: 14 }, 
+                            callback: function(value) { 
                                 return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                             }
                         },
@@ -167,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     x: {
                         ticks: {
                             color: '#E0E0E0',
-                            font: { size: 12 } // Ajuste o tamanho da fonte
+                            font: { size: 12 } 
                         },
                         grid: {
                             color: 'rgba(255, 255, 255, 0.1)'
@@ -187,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         color: '#E0E0E0',
                         font: { size: 18 }
                     },
-                    tooltip: { // Melhorar a exibição do tooltip
+                    tooltip: { 
                         callbacks: {
                             label: function(context) {
                                 let label = context.dataset.label || '';
@@ -206,17 +194,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- NOVO: GRÁFICO DE PIZZA - DESPESAS POR CATEGORIA ---
-    // A variável global 'despesasCategoriaData' é populada no index.html pelo Jinja2
     const ctxCategorias = document.getElementById('despesasCategoriaChart');
     if (ctxCategorias && typeof despesasCategoriaData !== 'undefined' && despesasCategoriaData.length > 0) {
-        // Prepara os rótulos (categorias) e dados (totais)
-        const labelsCategorias = despesasCategoriaData.map(item => item.categoria || 'Outros'); // 'Outros' para categorias nulas/vazias
+        const labelsCategorias = despesasCategoriaData.map(item => item.categoria || 'Outros'); 
         const dataCategorias = despesasCategoriaData.map(item => item.total);
 
-        // Gera cores aleatórias para as fatias da pizza
         const backgroundColors = labelsCategorias.map(() => {
-            const r = Math.floor(Math.random() * 200) + 50; // Evita cores muito escuras
+            const r = Math.floor(Math.random() * 200) + 50; 
             const g = Math.floor(Math.random() * 200) + 50;
             const b = Math.floor(Math.random() * 200) + 50;
             return `rgba(${r}, ${g}, ${b}, 0.8)`;
@@ -224,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const borderColors = backgroundColors.map(color => color.replace('0.8', '1'));
 
         new Chart(ctxCategorias, {
-            type: 'pie', // Tipo de gráfico: pizza
+            type: 'pie', 
             data: {
                 labels: labelsCategorias,
                 datasets: [{
@@ -239,10 +223,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'right', // Posição da legenda para gráficos de pizza
+                        position: 'right', 
                         labels: {
                             color: '#E0E0E0',
-                            font: { size: 14 } // Ajuste o tamanho da fonte da legenda
+                            font: { size: 14 } 
                         }
                     },
                     title: {
@@ -251,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         color: '#E0E0E0',
                         font: { size: 18 }
                     },
-                    tooltip: { // Melhorar a exibição do tooltip
+                    tooltip: { 
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';
