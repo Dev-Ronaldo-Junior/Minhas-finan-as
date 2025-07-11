@@ -56,6 +56,17 @@
                         <div class="form-group">
                             <input type="number" step="0.01" name="valor" placeholder="Valor (R$)" required>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="data-transacao">Data da Transação:</label>
+                            <input type="date" id="data-transacao" name="data" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="categoria-transacao">Categoria (apenas para despesas):</label>
+                            <input type="text" id="categoria-transacao" name="categoria" placeholder="Ex: Alimentação, Transporte">
+                        </div>
+
                         <button type="submit" class="btn-add-transaction">Adicionar Transação</button>
                     </form>
                 </div>
@@ -84,9 +95,21 @@
                 </div>
 
                 <div class="dashboard-card chart-card">
-                    <h3>Visualização Gráfica</h3>
+                    <h3>Comparativo Financeiro</h3>
                     <canvas id="financialChart"></canvas>
-                    <p>Gráfico de Ganhos vs. Despesas.</p>
+                    <p>Ganhos vs. Despesas em um olhar rápido.</p>
+                </div>
+
+                <div class="dashboard-card chart-card">
+                    <h3>Histórico de Saldo</h3>
+                    <canvas id="saldoHistoricoChart"></canvas>
+                    <p>Evolução do saldo acumulado ao longo do tempo.</p>
+                </div>
+
+                <div class="dashboard-card chart-card">
+                    <h3>Despesas por Categoria</h3>
+                    <canvas id="despesasCategoriaChart"></canvas>
+                    <p>Distribuição percentual das suas despesas.</p>
                 </div>
 
             </div>
@@ -95,11 +118,18 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 JRR Contabilidade. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Ronaldcont. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <script src="/static/script.js"></script>
+    <script>
+        // Dados passados do Flask para o JavaScript
+        const saldoHistoricoData = {{ saldo_historico|tojson }};
+        const despesasCategoriaData = {{ despesas_por_categoria|tojson }};
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>
